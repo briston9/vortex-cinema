@@ -1,4 +1,4 @@
-       <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,7 +16,9 @@
         body {
             background-color: #0c0c0c;
             color: #ffffff;
-            padding-bottom: 5px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         /* Top Header Styling */
@@ -111,6 +113,7 @@
         /* Media Grid System */
         .content-section {
             padding: 20px;
+            flex: 1; /* Pushes footer down if catalog is short */
         }
 
         .section-title {
@@ -147,7 +150,7 @@
             width: 100%;
             height: 200px;
             object-fit: cover;
-            background-color: #333; /* Placeholder color if image fails */
+            background-color: #333;
         }
 
         .media-info {
@@ -163,7 +166,7 @@
             font-weight: bold;
             margin-bottom: 8px;
             line-height: 1.2;
-            height: 34px; /* Fixes layout heights */
+            height: 34px;
             overflow: hidden;
         }
 
@@ -194,14 +197,71 @@
             color: #888;
             font-size: 16px;
         }
+
+        /* Sponsor & Contact Section Footer */
+        footer {
+            background-color: #111111;
+            border-top: 3px solid #e50914;
+            padding: 25px 20px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .sponsor-box {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .sponsor-title {
+            color: #e50914;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sponsor-text {
+            color: #cccccc;
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .contact-item a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-item a:hover {
+            color: #e50914;
+            text-decoration: underline;
+        }
+
+        .location-tag {
+            color: #888888;
+            font-size: 12px;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
 
+    <!-- Main Branding Header -->
     <header>
         <h1>VORTEX CINEMA</h1>
     </header>
 
+    <!-- Navigation System & Interactive Search -->
     <div class="nav-container">
         <nav class="main-nav">
             <a href="#" class="nav-item active" onclick="filterGenre('all', this)">Home</a>
@@ -218,11 +278,13 @@
         </div>
     </div>
 
+    <!-- Main Display Section -->
     <main class="content-section">
         <h2 class="section-title" id="displayTitle">All Catalog Items</h2>
         
         <div class="movie-grid" id="catalogGrid">
             
+            <!-- ITEM 1: First Sunday -->
             <div class="media-card" data-title="first sunday" data-genre="action">
                 <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400" alt="First Sunday">
                 <div class="media-info">
@@ -231,6 +293,7 @@
                 </div>
             </div>
 
+            <!-- ITEM 2: Sample Sci-Fi Movie -->
             <div class="media-card" data-title="interstellar" data-genre="scifi">
                 <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400" alt="Sci-Fi Movie">
                 <div class="media-info">
@@ -239,6 +302,7 @@
                 </div>
             </div>
 
+            <!-- ITEM 3: Sample Horror Movie -->
             <div class="media-card" data-title="the safe house" data-genre="horror">
                 <img src="https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=400" alt="Horror Movie">
                 <div class="media-info">
@@ -247,6 +311,7 @@
                 </div>
             </div>
 
+            <!-- ITEM 4: Sample Romance Movie -->
             <div class="media-card" data-title="love story" data-genre="romance">
                 <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400" alt="Romance Movie">
                 <div class="media-info">
@@ -255,6 +320,7 @@
                 </div>
             </div>
 
+            <!-- ITEM 5: Sample Game Download -->
             <div class="media-card" data-title="grand theft auto mobile" data-genre="games">
                 <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400" alt="Game Cover">
                 <div class="media-info">
@@ -266,8 +332,23 @@
         </div>
     </main>
 
+    <!-- Professional Business & Sponsorship Footer -->
+    <footer>
+        <div class="sponsor-box">
+            <p class="sponsor-title">Partner / Sponsor With Us</p>
+            <p class="sponsor-text">Want to advertise your brand, platform, or business on Vortex Cinema? Contact management directly below for business placements.</p>
+            
+            <div class="contact-details">
+                <p class="contact-item">📧 Email: <a href="mailto:bristonbalton9@gmail.com">bristonbalton9@gmail.com</a></p>
+                <p class="contact-item">📞 Phone: <a href="tel:0796407131">0796407131</a></p>
+            </div>
+            
+            <p class="location-tag">📍 Kigali, Rwanda</p>
+        </div>
+    </footer>
+
+    <!-- Functionality Scripts -->
     <script>
-        // Real-Time Search Logic
         function searchFunction() {
             let input = document.getElementById('movieSearch').value.toLowerCase();
             let cards = document.getElementsByClassName('media-card');
@@ -283,11 +364,9 @@
                 }
             }
 
-            // Remove previous error notice if it exists
             let oldNotice = document.getElementById('noMatchNotice');
             if (oldNotice) oldNotice.remove();
 
-            // Display fallback message if nothing matches
             if (visibleCount === 0) {
                 let grid = document.getElementById('catalogGrid');
                 let notice = document.createElement('div');
@@ -298,19 +377,16 @@
             }
         }
 
-        // Genre and Categories Filtering Logic
         function filterGenre(genre, element) {
             let cards = document.getElementsByClassName('media-card');
             let displayTitle = document.getElementById('displayTitle');
             
-            // Switch highlight indicator class on navigation links
             let navItems = document.getElementsByClassName('nav-item');
             for(let i=0; i < navItems.length; i++) {
                 navItems[i].classList.remove('active');
             }
             element.classList.add('active');
 
-            // Update visible cards matching data-genre attribute
             for (let i = 0; i < cards.length; i++) {
                 let cardGenre = cards[i].getAttribute('data-genre');
                 if (genre === 'all' || cardGenre === genre) {
@@ -320,10 +396,12 @@
                 }
             }
 
-            // Set Title dynamically
             displayTitle.innerText = genre === 'all' ? "All Catalog Items" : genre + " Selection";
             
-            // Clear input box during genre changes
             document.getElementById('movieSearch').value = "";
             let oldNotice = document.getElementById('noMatchNotice');
             if (oldNotice) oldNotice.remove();
+        }
+    </script>
+</body>
+</html>
