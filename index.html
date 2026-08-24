@@ -455,6 +455,22 @@
                     <p id="detailDesc" class="details-description">Description text...</p>
                     
                     <div class="instruction-box">
+                        <!-- COMMENTS & REVIEWS SECTION -->
+<div class="comments-section" style="margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 20px;">
+    <h3 style="font-size: 16px; margin-bottom: 12px; color: var(--text-main);">💬 Audience Reviews & Requests</h3>
+    
+    <!-- Comment Input Form -->
+    <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+        <input type="text" id="commenterName" placeholder="Your Name or Nickname" class="search-input" style="padding: 10px 14px;">
+        <textarea id="commentText" rows="3" placeholder="Leave a review or request a movie..." class="search-input" style="padding: 10px 14px; resize: none;"></textarea>
+        <button onclick="postComment()" class="back-btn" style="background: var(--primary); color: white; align-self: flex-start; margin-bottom: 0;">Post Comment</button>
+    </div>
+
+    <!-- Live Comments Feed -->
+    <div id="commentsFeed" style="display: flex; flex-direction: column; gap: 10px;">
+        <!-- Dynamic comments will render here -->
+    </div>
+</div>
                         <strong>⚠️ Fast Unlock Instructions:</strong>
                         <ol style="margin-top: 6px; padding-left: 18px;">
                             <li>Tap <strong>Get File / Download</strong> below.</li>
