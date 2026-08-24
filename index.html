@@ -94,8 +94,8 @@
         }
 
         .icon-btn {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--primary);
+            border: none;
             width: 40px;
             height: 40px;
             border-radius: 10px;
@@ -104,22 +104,18 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            box-shadow: 0 2px 10px var(--glow);
             transition: all 0.2s;
         }
 
         .icon-btn:hover {
-            background: var(--primary);
-            border-color: var(--primary);
-            box-shadow: 0 0 12px var(--glow);
+            background: var(--primary-hover);
         }
 
         /* --- SIDEBAR DRAWER MENU --- */
         .drawer-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(4px);
             z-index: 200;
@@ -135,10 +131,7 @@
 
         .sidebar-drawer {
             position: fixed;
-            top: 0;
-            right: -300px;
-            width: 300px;
-            height: 100%;
+            top: 0; right: -300px; width: 300px; height: 100%;
             background: #12141c;
             border-left: 1px solid rgba(255, 255, 255, 0.08);
             z-index: 201;
@@ -148,9 +141,7 @@
             transition: right 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        .sidebar-drawer.active {
-            right: 0;
-        }
+        .sidebar-drawer.active { right: 0; }
 
         .drawer-header {
             display: flex;
@@ -174,9 +165,7 @@
             transition: color 0.2s;
         }
 
-        .drawer-links a:hover {
-            color: var(--primary);
-        }
+        .drawer-links a:hover { color: var(--primary); }
 
         /* --- SEARCH & CHIPS --- */
         .search-container {
@@ -259,7 +248,7 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
-        /* --- CONTENT GRID --- */
+        /* --- CONTENT SECTIONS --- */
         main {
             max-width: 1200px;
             width: 100%;
@@ -271,52 +260,79 @@
         .page-view { display: none; }
         .page-view.active-view { display: block; }
 
-        .section-header {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .category-section {
+            margin-bottom: 35px;
         }
 
-        .section-header::before {
+        .section-header-flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #ffffff;
+            position: relative;
+            padding-bottom: 6px;
+        }
+
+        .section-title::after {
             content: '';
-            width: 4px;
-            height: 18px;
+            position: absolute;
+            left: 0; bottom: 0;
+            width: 50px; height: 3px;
             background: var(--primary);
             border-radius: 2px;
         }
 
-        .media-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+        .view-more-link {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: opacity 0.2s;
+        }
+
+        .view-more-link:hover { opacity: 0.8; }
+
+        .horizontal-scroll-row {
+            display: flex;
             gap: 16px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: none;
         }
 
-        @media (min-width: 600px) {
-            .media-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        }
-
-        @media (min-width: 900px) {
-            .media-grid { grid-template-columns: repeat(4, 1fr); gap: 24px; }
-        }
+        .horizontal-scroll-row::-webkit-scrollbar { display: none; }
 
         .card {
+            min-width: 160px;
+            max-width: 160px;
             background: var(--bg-card);
-            border-radius: 16px;
+            border-radius: 14px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.05);
             cursor: pointer;
-            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: flex;
             flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 600px) {
+            .card { min-width: 190px; max-width: 190px; }
         }
 
         .card:hover {
-            transform: translateY(-8px) scale(1.02);
+            transform: translateY(-6px);
             border-color: rgba(229, 9, 20, 0.5);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6), 0 0 20px var(--glow);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6), 0 0 15px var(--glow);
         }
 
         .card-thumbnail-wrapper {
@@ -339,23 +355,22 @@
 
         .badge {
             position: absolute;
-            top: 10px; left: 10px;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(6px);
-            color: var(--primary);
-            font-size: 10px;
+            top: 8px; left: 8px;
+            background: rgba(229, 9, 20, 0.9);
+            color: #ffffff;
+            font-size: 9px;
             font-weight: 800;
-            padding: 5px 10px;
-            border-radius: 8px;
+            padding: 4px 8px;
+            border-radius: 6px;
             text-transform: uppercase;
-            border: 1px solid rgba(229, 9, 20, 0.3);
+            letter-spacing: 0.5px;
         }
 
         .card-body {
-            padding: 14px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 4px;
             flex: 1;
         }
 
@@ -364,10 +379,9 @@
             font-weight: 700;
             line-height: 1.3;
             color: var(--text-main);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
+            white-space: nowrap;
             overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .card-meta { font-size: 11px; color: var(--text-muted); }
@@ -445,7 +459,7 @@
             box-shadow: 0 8px 25px var(--glow);
         }
 
-        /* --- ULTRA MODERN FOOTER --- */
+        /* --- FOOTER --- */
         footer {
             max-width: 1200px;
             width: 100%;
@@ -463,58 +477,30 @@
             footer { grid-template-columns: repeat(3, 1fr); }
         }
 
-        .footer-col {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
+        .footer-col { display: flex; flex-direction: column; gap: 14px; }
 
         .footer-section-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #ffffff;
-            position: relative;
-            display: inline-block;
+            font-size: 16px; font-weight: 700; color: #ffffff;
+            position: relative; display: inline-block;
         }
 
         .footer-section-title::after {
-            content: '';
-            position: absolute;
-            left: 0; bottom: -4px;
-            width: 30px; height: 3px;
-            background: var(--primary);
-            border-radius: 2px;
+            content: ''; position: absolute; left: 0; bottom: -4px;
+            width: 30px; height: 3px; background: var(--primary); border-radius: 2px;
         }
 
-        .footer-links-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+        .footer-links-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
 
         .footer-links-list a, .footer-links-list span {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 14px;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            color: var(--text-muted); text-decoration: none; font-size: 14px;
+            transition: all 0.2s; display: flex; align-items: center; gap: 8px;
         }
 
-        .footer-links-list a:hover {
-            color: var(--text-main);
-            transform: translateX(4px);
-        }
+        .footer-links-list a:hover { color: var(--text-main); transform: translateX(4px); }
 
         .copyright-bar {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.04);
-            font-size: 12px;
-            color: var(--text-muted);
+            grid-column: 1 / -1; text-align: center; padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.04); font-size: 12px; color: var(--text-muted);
         }
     </style>
 </head>
@@ -558,14 +544,14 @@
         <input type="text" id="searchInput" class="search-input" placeholder="Shakisha film cyangwa umusobanuzi..." onkeyup="filterItems()">
     </div>
 
-    <!-- CATEGORIES -->
+    <!-- CATEGORIES CHIPS -->
     <div class="categories-container">
         <div class="categories-scroll">
             <button class="chip active" onclick="filterCategory('all', this)">All</button>
+            <button class="chip" onclick="filterCategory('romance', this)">Romance</button>
+            <button class="chip" onclick="filterCategory('horror', this)">Horror</button>
             <button class="chip" onclick="filterCategory('rocky', this)">Rocky Kimomo</button>
             <button class="chip" onclick="filterCategory('junior', this)">Junior Giti</button>
-            <button class="chip" onclick="filterCategory('sankara', this)">Sankara</button>
-            <button class="chip" onclick="filterCategory('action', this)">Action</button>
         </div>
     </div>
 
@@ -581,58 +567,93 @@
         
         <!-- HOME CATALOG VIEW -->
         <section id="homeView" class="page-view active-view">
-            <div class="section-header" id="catalogHeading">Trending Releases</div>
-            <div class="media-grid" id="catalogGrid">
-                
-                <!-- CARD 1 -->
-                <div class="card" data-category="rocky action" data-title="saiyaara agasobanuye rocky kimomo" onclick="openDetails('saiyaara')">
-                    <div class="card-thumbnail-wrapper">
-                        <span class="badge">Rocky Kimomo</span>
-                        <img src="https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=400" class="card-thumbnail" alt="Saiyaara">
+            
+            <!-- ROMANCE SECTION -->
+            <div class="category-section" data-section="romance">
+                <div class="section-header-flex">
+                    <h2 class="section-title">Romance</h2>
+                    <a href="#" class="view-more-link" onclick="alert('Viewing all Romance movies'); return false;">View More &rarr;</a>
+                </div>
+                <div class="horizontal-scroll-row">
+                    <!-- Card 1 -->
+                    <div class="card" onclick="openDetails('fifty-freed')">
+                        <div class="card-thumbnail-wrapper">
+                            <span class="badge">Romance</span>
+                            <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400" class="card-thumbnail" alt="Fifty Shades Freed">
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">Fifty Shades Freed</div>
+                            <div class="card-meta">PK - The S... • 17 hours ago</div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="card-title">Saiyaara Agasobanuye</div>
-                        <div class="card-meta">2026 • HD • Action</div>
+                    <!-- Card 2 -->
+                    <div class="card" onclick="openDetails('fifty-darker')">
+                        <div class="card-thumbnail-wrapper">
+                            <span class="badge">Romance</span>
+                            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" class="card-thumbnail" alt="Fifty Shades Darker">
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">Fifty Shades Darker</div>
+                            <div class="card-meta">PK - The S... • 17 hours ago</div>
+                        </div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="card" onclick="openDetails('desire')">
+                        <div class="card-thumbnail-wrapper">
+                            <span class="badge">Romance</span>
+                            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400" class="card-thumbnail" alt="Desire">
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">Desire</div>
+                            <div class="card-meta">Perfect</div>
+                        </div>
                     </div>
                 </div>
-
-                <!-- CARD 2 -->
-                <div class="card" data-category="junior action" data-title="first sunday junior giti comedy" onclick="openDetails('first-sunday')">
-                    <div class="card-thumbnail-wrapper">
-                        <span class="badge">Junior Giti</span>
-                        <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400" class="card-thumbnail" alt="First Sunday">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">First Sunday</div>
-                        <div class="card-meta">2008 • HD • Comedy</div>
-                    </div>
-                </div>
-
-                <!-- CARD 3 -->
-                <div class="card" data-category="action" data-title="fast x fast and furious" onclick="openDetails('fast-x')">
-                    <div class="card-thumbnail-wrapper">
-                        <span class="badge">Action</span>
-                        <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=400" class="card-thumbnail" alt="Fast X">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">Fast X</div>
-                        <div class="card-meta">2023 • HD • Racing</div>
-                    </div>
-                </div>
-
-                <!-- CARD 4 -->
-                <div class="card" data-category="sankara" data-title="gta mobile mod apk" onclick="openDetails('gta-mobile')">
-                    <div class="card-thumbnail-wrapper">
-                        <span class="badge">APK</span>
-                        <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400" class="card-thumbnail" alt="GTA Mobile">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">GTA Mobile Mod</div>
-                        <div class="card-meta">Android • 1.2 GB</div>
-                    </div>
-                </div>
-
             </div>
+
+            <!-- HORROR SECTION -->
+            <div class="category-section" data-section="horror">
+                <div class="section-header-flex">
+                    <h2 class="section-title">Horror</h2>
+                    <a href="#" class="view-more-link" onclick="alert('Viewing all Horror movies'); return false;">View More &rarr;</a>
+                </div>
+                <div class="horizontal-scroll-row">
+                    <!-- Card 4 -->
+                    <div class="card" onclick="openDetails('last-house')">
+                        <div class="card-thumbnail-wrapper">
+                            <span class="badge" style="background:#b20710;">Horror</span>
+                            <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400" class="card-thumbnail" alt="The Last House">
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">The Last House</div>
+                            <div class="card-meta">Netflix • HD</div>
+                        </div>
+                    </div>
+                    <!-- Card 5 -->
+                    <div class="card" onclick="openDetails('devils-mouth')">
+                        <div class="card-thumbnail-wrapper">
+                            <span class="badge" style="background:#b20710;">Horror</span>
+                            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" class="card-thumbnail" alt="The Devil's Mouth">
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">The Devil's Mouth</div>
+                            <div class="card-meta">Prime • New</div>
+                        </div>
+                    </div>
+                    <!-- Card 6 -->
+                    <div class="card" onclick="openDetails('evil-dead')">
+                        <div class="card-thumbnail-wrapper">
+                            <span class="badge" style="background:#b20710;">Horror</span>
+                            <img src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=400" class="card-thumbnail" alt="Evil Dead">
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">Evil Dead</div>
+                            <div class="card-meta">Classic • HD</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </section>
 
         <!-- DETAILS VIEW -->
@@ -651,7 +672,7 @@
 
     </main>
 
-    <!-- FOOTER -->
+    <!-- FOOTER WITH UPDATED CONTACT & EMAIL -->
     <footer>
         <div class="footer-col">
             <div class="footer-section-title">Quick Links</div>
@@ -674,8 +695,9 @@
         <div class="footer-col">
             <div class="footer-section-title">Contact Us</div>
             <ul class="footer-links-list">
-                <li><span>📞 +250 796 407 131</span></li>
-                <li><span>💬 +250 788 572 149</span></li>
+                <li><span>📞 0796407131</span></li>
+                <li><span>💬 0796407131</span></li>
+                <li><span>✉️ bristonbalton9@gmail.com</span></li>
             </ul>
         </div>
 
@@ -687,32 +709,46 @@
     <!-- JAVASCRIPT LOGIC -->
     <script>
         const movieDatabase = {
-            "saiyaara": {
-                title: "Saiyaara Agasobanuye (Rocky Kimomo)",
-                meta: "2026 • Full HD • Translated by Rocky Kimomo",
-                desc: "Experience the ultimate Indian action romance film translated into Kinyarwanda by Rocky Kimomo.",
-                poster: "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=400",
-                targetUrl: "https://www.youtube.com/watch?v=I2pkCtklv_A"
-            },
-            "first-sunday": {
-                title: "First Sunday (Junior Giti)",
-                meta: "2008 • HD • Comedy / Action",
-                desc: "Translated into Kinyarwanda by Junior Giti. Two petty criminals plan a local heist.",
-                poster: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400",
+            "fifty-freed": {
+                title: "Fifty Shades Freed",
+                meta: "PK - The S... • 17 hours ago",
+                desc: "Believing they have left behind shadowy figures from their past, newlyweds Christian and Ana fully embrace an inextricable connection and shared life of luxury.",
+                poster: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400",
                 targetUrl: "#"
             },
-            "fast-x": {
-                title: "Fast X (2023)",
-                meta: "2023 • 1080p • Action / Thriller",
-                desc: "Dom Toretto and his family face their most lethal opponent yet.",
-                poster: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=400",
+            "fifty-darker": {
+                title: "Fifty Shades Darker",
+                meta: "PK - The S... • 17 hours ago",
+                desc: "When a wounded Christian Grey tries to cajole a cautious Ana Steele back into his life, she demands a new arrangement before she will give him another chance.",
+                poster: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400",
                 targetUrl: "#"
             },
-            "gta-mobile": {
-                title: "GTA Mobile Mod APK",
-                meta: "Android • Full Game • Offline",
-                desc: "Download fully unlocked GTA Mobile edition for Android devices.",
-                poster: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400",
+            "desire": {
+                title: "Desire",
+                meta: "Perfect • Romance Selection",
+                desc: "A gripping drama exploring human passions, relationships, and hidden secrets.",
+                poster: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400",
+                targetUrl: "#"
+            },
+            "last-house": {
+                title: "The Last House",
+                meta: "Netflix • Horror Release",
+                desc: "After seeking shelter in a remote cabin, a group of travelers realize dark forces are hunting them down one by one.",
+                poster: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400",
+                targetUrl: "#"
+            },
+            "devils-mouth": {
+                title: "The Devil's Mouth",
+                meta: "Prime Original • Horror",
+                desc: "Deep sea divers uncover an ancient underwater opening that releases a terrifying entity.",
+                poster: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400",
+                targetUrl: "#"
+            },
+            "evil-dead": {
+                title: "Evil Dead",
+                meta: "Classic • Horror",
+                desc: "Five friends travel to a remote cabin where they accidentally unleash flesh-possessing demons.",
+                poster: "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=400",
                 targetUrl: "#"
             }
         };
@@ -749,8 +785,8 @@
             const query = document.getElementById('searchInput').value.toLowerCase();
             const cards = document.querySelectorAll('.card');
             cards.forEach(card => {
-                const titleTag = card.getAttribute('data-title').toLowerCase();
-                card.style.display = titleTag.includes(query) ? 'flex' : 'none';
+                const titleText = card.querySelector('.card-title').innerText.toLowerCase();
+                card.style.display = titleText.includes(query) ? 'flex' : 'none';
             });
         }
 
@@ -758,12 +794,16 @@
             document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
             chipElement.classList.add('active');
 
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                const itemCat = card.getAttribute('data-category');
-                card.style.display = (category === 'all' || itemCat.includes(category)) ? 'flex' : 'none';
+            const sections = document.querySelectorAll('.category-section');
+            sections.forEach(sec => {
+                const secName = sec.getAttribute('data-section');
+                if (category === 'all' || secName === category) {
+                    sec.style.display = 'block';
+                } else {
+                    sec.style.display = 'none';
+                }
             });
         }
     </script>
 </body>
-</html>
+    </html>
