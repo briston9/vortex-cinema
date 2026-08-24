@@ -166,11 +166,10 @@
         /* --- MEDIA GRID & HOVER EFFECTS --- */
         .media-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2 columns on small phones */
+            grid-template-columns: repeat(2, 1fr);
             gap: 14px;
         }
 
-        /* Mobile-First Breakpoints */
         @media (min-width: 600px) {
             .media-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; }
             .header-container { flex-direction: row; align-items: center; }
@@ -193,7 +192,6 @@
             position: relative;
         }
 
-        /* HOVER / TOUCH ANIMATIONS */
         .card:hover {
             transform: translateY(-6px) scale(1.02);
             border-color: rgba(229, 9, 20, 0.5);
@@ -203,7 +201,7 @@
         .card-thumbnail-wrapper {
             position: relative;
             width: 100%;
-            padding-top: 140%; /* 4:5 aspect ratio */
+            padding-top: 140%;
             overflow: hidden;
             background: #1c1f2a;
         }
@@ -219,7 +217,7 @@
         }
 
         .card:hover .card-thumbnail {
-            transform: scale(1.08); /* Image zoom on hover */
+            transform: scale(1.08);
         }
 
         .badge {
@@ -455,22 +453,6 @@
                     <p id="detailDesc" class="details-description">Description text...</p>
                     
                     <div class="instruction-box">
-                        <!-- COMMENTS & REVIEWS SECTION -->
-<div class="comments-section" style="margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 20px;">
-    <h3 style="font-size: 16px; margin-bottom: 12px; color: var(--text-main);">💬 Audience Reviews & Requests</h3>
-    
-    <!-- Comment Input Form -->
-    <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
-        <input type="text" id="commenterName" placeholder="Your Name or Nickname" class="search-input" style="padding: 10px 14px;">
-        <textarea id="commentText" rows="3" placeholder="Leave a review or request a movie..." class="search-input" style="padding: 10px 14px; resize: none;"></textarea>
-        <button onclick="postComment()" class="back-btn" style="background: var(--primary); color: white; align-self: flex-start; margin-bottom: 0;">Post Comment</button>
-    </div>
-
-    <!-- Live Comments Feed -->
-    <div id="commentsFeed" style="display: flex; flex-direction: column; gap: 10px;">
-        <!-- Dynamic comments will render here -->
-    </div>
-</div>
                         <strong>⚠️ Fast Unlock Instructions:</strong>
                         <ol style="margin-top: 6px; padding-left: 18px;">
                             <li>Tap <strong>Get File / Download</strong> below.</li>
@@ -479,7 +461,24 @@
                         </ol>
                     </div>
 
-                    <a id="detailLink" href="#" target="_blank" class="action-btn">Get File / Watch Now</a>
+                    <!-- COMMENTS & REVIEWS SECTION (Moved out of instruction-box) -->
+                    <div class="comments-section" style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 15px;">
+                        <h3 style="font-size: 15px; margin-bottom: 10px; color: var(--text-main);">💬 Audience Reviews & Requests</h3>
+                        
+                        <!-- Comment Input Form -->
+                        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px;">
+                            <input type="text" id="commenterName" placeholder="Your Name or Nickname" class="search-input" style="padding: 10px 14px;">
+                            <textarea id="commentText" rows="2" placeholder="Leave a review or request a movie..." class="search-input" style="padding: 10px 14px; resize: none;"></textarea>
+                            <button onclick="postComment()" class="back-btn" style="background: var(--primary); color: white; align-self: flex-start; margin-bottom: 0; padding: 8px 14px;">Post Comment</button>
+                        </div>
+
+                        <!-- Live Comments Feed -->
+                        <div id="commentsFeed" style="display: flex; flex-direction: column; gap: 8px;">
+                            <!-- Dynamic comments will render here -->
+                        </div>
+                    </div>
+
+                    <a id="detailLink" href="https://www.youtube.com/watch?v=I2pkCtklv_A" target="_blank" class="action-btn">Get File / Watch Now</a>
                 </div>
             </div>
         </section>
@@ -567,6 +566,32 @@
             });
 
             document.getElementById('catalogHeading').innerText = category === 'all' ? "Trending Releases" : category.toUpperCase() + " Catalog";
+        }
+
+        // ADDED COMMENT FUNCTIONALITY
+        function postComment() {
+            const nameInput = document.getElementById('commenterName');
+            const textInput = document.getElementById('commentText');
+            const feed = document.getElementById('commentsFeed');
+
+            const name = nameInput.value.trim() || "Anonymous";
+            const text = textInput.value.trim();
+
+            if (!text) {
+                alert("Please write a comment or request before posting.");
+                return;
+            }
+
+            const commentCard = document.createElement('div');
+            commentCard.style.cssText = "background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); font-size: 13px;";
+            commentCard.innerHTML = `<strong>${escapeHtml(name)}</strong><p style="color: var(--text-muted); margin-top: 4px;">${escapeHtml(text)}</p>`;
+
+            feed.prepend(commentCard);
+            textInput.value = '';
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
         }
     </script>
 </body>
