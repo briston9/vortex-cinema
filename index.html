@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vortex Cinema - Watch & Download Agasobanuye</title>
+    <title>Vortex Cinema - Reba Agasobanuye n'Indunduro</title>
     <style>
         /* --- CSS VARIABLES & SYSTEM RESET --- */
         :root {
@@ -11,7 +11,7 @@
             --primary-hover: #b20710;
             --bg-main: #0b0c10;
             --bg-card: #14161d;
-            --bg-glass: rgba(20, 22, 29, 0.75);
+            --bg-glass: rgba(11, 12, 16, 0.85);
             --text-main: #ffffff;
             --text-muted: #9aa0a6;
             --glow: rgba(229, 9, 20, 0.4);
@@ -31,7 +31,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            padding-bottom: 40px;
+            overflow-x: hidden;
         }
 
         /* --- HEADER & NAVIGATION --- */
@@ -40,49 +40,158 @@
             top: 0;
             z-index: 100;
             background: var(--bg-glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 12px 16px;
+            padding: 12px 20px;
         }
 
         .header-container {
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .brand {
-            display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        .logo {
-            font-size: 22px;
-            font-weight: 900;
-            letter-spacing: 1.5px;
-            color: var(--primary);
-            text-transform: uppercase;
-            text-shadow: 0 0 12px var(--glow);
+        .brand-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
             text-decoration: none;
         }
 
-        /* Search Input Component */
-        .search-wrapper {
-            position: relative;
+        .logo-circle {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--primary), #ff4d4d);
+            color: #ffffff;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 18px;
+            box-shadow: 0 0 15px var(--glow);
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: 0.8px;
+            color: var(--text-main);
+            text-transform: uppercase;
+        }
+
+        .logo-text span {
+            color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 12px var(--glow);
+        }
+
+        /* --- SIDEBAR DRAWER MENU --- */
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .drawer-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .sidebar-drawer {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            background: #12141c;
+            border-left: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 201;
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            transition: right 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .sidebar-drawer.active {
+            right: 0;
+        }
+
+        .drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .drawer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .drawer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .drawer-links a:hover {
+            color: var(--primary);
+        }
+
+        /* --- SEARCH & CHIPS --- */
+        .search-container {
+            max-width: 1200px;
+            margin: 16px auto 0 auto;
+            width: 100%;
+            padding: 0 20px;
         }
 
         .search-input {
             width: 100%;
-            padding: 12px 16px;
-            padding-right: 40px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(255, 255, 255, 0.05);
+            padding: 14px 18px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
             color: var(--text-main);
             font-size: 14px;
             outline: none;
@@ -91,11 +200,17 @@
 
         .search-input:focus {
             border-color: var(--primary);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 15px var(--glow);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px var(--glow);
         }
 
-        /* Category Chips (Horizontal Scroll) */
+        .categories-container {
+            max-width: 1200px;
+            margin: 12px auto 0 auto;
+            width: 100%;
+            padding: 0 20px;
+        }
+
         .categories-scroll {
             display: flex;
             gap: 8px;
@@ -104,18 +219,16 @@
             scrollbar-width: none;
         }
 
-        .categories-scroll::-webkit-scrollbar {
-            display: none;
-        }
+        .categories-scroll::-webkit-scrollbar { display: none; }
 
         .chip {
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 20px;
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.05);
             color: var(--text-muted);
             font-size: 13px;
             font-weight: 600;
-            border: 1px solid transparent;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             white-space: nowrap;
             cursor: pointer;
             transition: all 0.25s ease;
@@ -125,26 +238,38 @@
             color: var(--text-main);
             background: var(--primary);
             border-color: var(--primary);
-            box-shadow: 0 4px 12px var(--glow);
+            box-shadow: 0 4px 15px var(--glow);
         }
 
-        /* --- LAYOUT CONTAINER --- */
+        /* --- HERO INTRO BANNER --- */
+        .intro-section {
+            max-width: 1200px;
+            margin: 16px auto;
+            padding: 0 20px;
+        }
+
+        .intro-box {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #d1d5db;
+            background: linear-gradient(135deg, rgba(229, 9, 20, 0.08), rgba(255, 255, 255, 0.02));
+            border: 1px solid rgba(229, 9, 20, 0.2);
+            padding: 16px 20px;
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        /* --- CONTENT GRID --- */
         main {
             max-width: 1200px;
             width: 100%;
             margin: 0 auto;
-            padding: 20px 16px;
+            padding: 10px 20px;
             flex: 1;
         }
 
-        /* --- PAGE VIEWS (Routing) --- */
-        .page-view {
-            display: none;
-        }
-
-        .page-view.active-view {
-            display: block;
-        }
+        .page-view { display: none; }
+        .page-view.active-view { display: block; }
 
         .section-header {
             font-size: 18px;
@@ -152,7 +277,7 @@
             margin-bottom: 16px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .section-header::before {
@@ -163,39 +288,35 @@
             border-radius: 2px;
         }
 
-        /* --- MEDIA GRID & HOVER EFFECTS --- */
         .media-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
+            gap: 16px;
         }
 
         @media (min-width: 600px) {
-            .media-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; }
-            .header-container { flex-direction: row; align-items: center; }
-            .search-wrapper { max-width: 320px; }
+            .media-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
         }
 
         @media (min-width: 900px) {
-            .media-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+            .media-grid { grid-template-columns: repeat(4, 1fr); gap: 24px; }
         }
 
         .card {
             background: var(--bg-card);
-            border-radius: 14px;
+            border-radius: 16px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.05);
             cursor: pointer;
             transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: flex;
             flex-direction: column;
-            position: relative;
         }
 
         .card:hover {
-            transform: translateY(-6px) scale(1.02);
+            transform: translateY(-8px) scale(1.02);
             border-color: rgba(229, 9, 20, 0.5);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5), 0 0 15px var(--glow);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6), 0 0 20px var(--glow);
         }
 
         .card-thumbnail-wrapper {
@@ -208,35 +329,30 @@
 
         .card-thumbnail {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
         }
 
-        .card:hover .card-thumbnail {
-            transform: scale(1.08);
-        }
+        .card:hover .card-thumbnail { transform: scale(1.08); }
 
         .badge {
             position: absolute;
-            top: 8px;
-            left: 8px;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(4px);
+            top: 10px; left: 10px;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(6px);
             color: var(--primary);
             font-size: 10px;
             font-weight: 800;
-            padding: 4px 8px;
-            border-radius: 6px;
+            padding: 5px 10px;
+            border-radius: 8px;
             text-transform: uppercase;
             border: 1px solid rgba(229, 9, 20, 0.3);
         }
 
         .card-body {
-            padding: 12px;
+            padding: 14px;
             display: flex;
             flex-direction: column;
             gap: 6px;
@@ -254,12 +370,9 @@
             overflow: hidden;
         }
 
-        .card-meta {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
+        .card-meta { font-size: 11px; color: var(--text-muted); }
 
-        /* --- DETAILS PAGE (SINGLE MOVIE VIEW) --- */
+        /* --- DETAILS VIEW --- */
         .back-btn {
             display: inline-flex;
             align-items: center;
@@ -276,32 +389,27 @@
             transition: background 0.2s;
         }
 
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
+        .back-btn:hover { background: rgba(255, 255, 255, 0.15); }
 
         .details-wrapper {
             display: flex;
             flex-direction: column;
             gap: 24px;
             background: var(--bg-card);
-            border-radius: 18px;
-            padding: 20px;
+            border-radius: 20px;
+            padding: 24px;
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         @media (min-width: 768px) {
-            .details-wrapper {
-                flex-direction: row;
-                align-items: flex-start;
-            }
+            .details-wrapper { flex-direction: row; align-items: flex-start; }
         }
 
         .details-poster {
             width: 100%;
             max-width: 280px;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.7);
             margin: 0 auto;
         }
 
@@ -312,26 +420,8 @@
             gap: 14px;
         }
 
-        .details-title {
-            font-size: 24px;
-            font-weight: 800;
-        }
-
-        .details-description {
-            font-size: 14px;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        .instruction-box {
-            background: rgba(229, 9, 20, 0.08);
-            border-left: 4px solid var(--primary);
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 13px;
-            line-height: 1.5;
-            color: #dddddd;
-        }
+        .details-title { font-size: 26px; font-weight: 800; }
+        .details-description { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
 
         .action-btn {
             display: block;
@@ -354,44 +444,148 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 25px var(--glow);
         }
+
+        /* --- ULTRA MODERN FOOTER --- */
+        footer {
+            max-width: 1200px;
+            width: 100%;
+            margin: 50px auto 0 auto;
+            padding: 30px 20px 0 20px;
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(14, 16, 23, 0.5);
+            border-radius: 24px 24px 0 0;
+        }
+
+        @media(min-width: 768px) {
+            footer { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        .footer-col {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .footer-section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-section-title::after {
+            content: '';
+            position: absolute;
+            left: 0; bottom: -4px;
+            width: 30px; height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .footer-links-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-links-list a, .footer-links-list span {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links-list a:hover {
+            color: var(--text-main);
+            transform: translateX(4px);
+        }
+
+        .copyright-bar {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            font-size: 12px;
+            color: var(--text-muted);
+        }
     </style>
 </head>
 <body>
 
-    <!-- HEADER & NAVIGATION -->
+    <!-- HEADER -->
     <header>
         <div class="header-container">
-            <div class="brand">
-                <a href="#" class="logo" onclick="navigateTo('home')">VORTEX CINEMA</a>
-            </div>
-
-            <div class="search-wrapper">
-                <input type="text" id="searchInput" class="search-input" placeholder="Search movies, VJs (Rocky...)" onkeyup="filterItems()">
-            </div>
-        </div>
-
-        <div class="header-container" style="margin-top: 10px;">
-            <div class="categories-scroll">
-                <button class="chip active" onclick="filterCategory('all', this)">All</button>
-                <button class="chip" onclick="filterCategory('action', this)">Action</button>
-                <button class="chip" onclick="filterCategory('agasobanuye', this)">Agasobanuye</button>
-                <button class="chip" onclick="filterCategory('scifi', this)">Sci-Fi</button>
-                <button class="chip" onclick="filterCategory('horror', this)">Horror</button>
-                <button class="chip" onclick="filterCategory('games', this)">Games</button>
+            <a href="#" class="brand-group" onclick="navigateTo('home')">
+                <div class="logo-circle">VC</div>
+                <div class="logo-text">Vortex <span>Cinema</span></div>
+            </a>
+            <div class="header-actions">
+                <button class="icon-btn" onclick="document.getElementById('searchInput').focus()" title="Search">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+                <button class="icon-btn" onclick="toggleDrawer()" title="Menu">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- MAIN VIEW WRAPPER -->
+    <!-- SIDEBAR DRAWER OVERLAY & PANEL -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
+    <div class="sidebar-drawer" id="sidebarDrawer">
+        <div class="drawer-header">
+            <div class="logo-text">Vortex <span>Menu</span></div>
+            <button class="icon-btn" onclick="toggleDrawer()">✕</button>
+        </div>
+        <ul class="drawer-links">
+            <li><a href="#" onclick="toggleDrawer(); navigateTo('home')">🏠 Home Catalog</a></li>
+            <li><a href="#" onclick="toggleDrawer(); alert('About Us page coming soon!')">ℹ️ About Us</a></li>
+            <li><a href="#" onclick="toggleDrawer(); alert('Privacy Policy page coming soon!')">🔒 Privacy Policy</a></li>
+            <li><a href="#" onclick="toggleDrawer(); alert('Terms page coming soon!')">📄 Terms & Conditions</a></li>
+        </ul>
+    </div>
+
+    <!-- SEARCH BAR -->
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Shakisha film cyangwa umusobanuzi..." onkeyup="filterItems()">
+    </div>
+
+    <!-- CATEGORIES -->
+    <div class="categories-container">
+        <div class="categories-scroll">
+            <button class="chip active" onclick="filterCategory('all', this)">All</button>
+            <button class="chip" onclick="filterCategory('rocky', this)">Rocky Kimomo</button>
+            <button class="chip" onclick="filterCategory('junior', this)">Junior Giti</button>
+            <button class="chip" onclick="filterCategory('sankara', this)">Sankara</button>
+            <button class="chip" onclick="filterCategory('action', this)">Action</button>
+        </div>
+    </div>
+
+    <!-- KINYARWANDA INTRO TEXT -->
+    <div class="intro-section">
+        <div class="intro-box">
+            🎬 <strong>Reba Agasobanuye</strong> aho waba uri hose kubuntu. Abasobanuzi: Rocky Kimomo, Junior Giti, Sankara, Savimbi, PK, Gaheza n'abandi.
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTENT -->
     <main>
         
-        <!-- VIEW 1: HOME CATALOG GRID -->
+        <!-- HOME CATALOG VIEW -->
         <section id="homeView" class="page-view active-view">
             <div class="section-header" id="catalogHeading">Trending Releases</div>
             <div class="media-grid" id="catalogGrid">
                 
-                <!-- CARD 1: Saiyaara -->
-                <div class="card" data-id="saiyaara" data-category="agasobanuye action" data-title="saiyaara agasobanuye rocky kimomo indian" onclick="openDetails('saiyaara')">
+                <!-- CARD 1 -->
+                <div class="card" data-category="rocky action" data-title="saiyaara agasobanuye rocky kimomo" onclick="openDetails('saiyaara')">
                     <div class="card-thumbnail-wrapper">
                         <span class="badge">Rocky Kimomo</span>
                         <img src="https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=400" class="card-thumbnail" alt="Saiyaara">
@@ -402,10 +596,10 @@
                     </div>
                 </div>
 
-                <!-- CARD 2: First Sunday -->
-                <div class="card" data-id="first-sunday" data-category="action" data-title="first sunday comedy action" onclick="openDetails('first-sunday')">
+                <!-- CARD 2 -->
+                <div class="card" data-category="junior action" data-title="first sunday junior giti comedy" onclick="openDetails('first-sunday')">
                     <div class="card-thumbnail-wrapper">
-                        <span class="badge">Monetized</span>
+                        <span class="badge">Junior Giti</span>
                         <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400" class="card-thumbnail" alt="First Sunday">
                     </div>
                     <div class="card-body">
@@ -414,8 +608,8 @@
                     </div>
                 </div>
 
-                <!-- CARD 3: Fast X -->
-                <div class="card" data-id="fast-x" data-category="action" data-title="fast x fast and furious 10" onclick="openDetails('fast-x')">
+                <!-- CARD 3 -->
+                <div class="card" data-category="action" data-title="fast x fast and furious" onclick="openDetails('fast-x')">
                     <div class="card-thumbnail-wrapper">
                         <span class="badge">Action</span>
                         <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=400" class="card-thumbnail" alt="Fast X">
@@ -426,8 +620,8 @@
                     </div>
                 </div>
 
-                <!-- CARD 4: GTA Mobile -->
-                <div class="card" data-id="gta-mobile" data-category="games" data-title="gta mobile mod apk grand theft auto" onclick="openDetails('gta-mobile')">
+                <!-- CARD 4 -->
+                <div class="card" data-category="sankara" data-title="gta mobile mod apk" onclick="openDetails('gta-mobile')">
                     <div class="card-thumbnail-wrapper">
                         <span class="badge">APK</span>
                         <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400" class="card-thumbnail" alt="GTA Mobile">
@@ -441,85 +635,93 @@
             </div>
         </section>
 
-        <!-- VIEW 2: DETAILS PAGE (DYNAMIC ROUTE) -->
+        <!-- DETAILS VIEW -->
         <section id="detailsView" class="page-view">
             <button class="back-btn" onclick="navigateTo('home')">← Back to Catalog</button>
-            
             <div class="details-wrapper">
                 <img id="detailPoster" src="" class="details-poster" alt="Movie Poster">
                 <div class="details-content">
                     <h1 id="detailTitle" class="details-title">Title Here</h1>
                     <div id="detailMeta" style="color: var(--primary); font-size: 13px; font-weight: 700;">Meta Info</div>
                     <p id="detailDesc" class="details-description">Description text...</p>
-                    
-                    <div class="instruction-box">
-                        <strong>⚠️ Fast Unlock Instructions:</strong>
-                        <ol style="margin-top: 6px; padding-left: 18px;">
-                            <li>Tap <strong>Get File / Download</strong> below.</li>
-                            <li>Wait 15 seconds on the verified page.</li>
-                            <li>Click <strong>Get Link</strong> to start streaming!</li>
-                        </ol>
-                    </div>
-
-                    <!-- COMMENTS & REVIEWS SECTION (Moved out of instruction-box) -->
-                    <div class="comments-section" style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 15px;">
-                        <h3 style="font-size: 15px; margin-bottom: 10px; color: var(--text-main);">💬 Audience Reviews & Requests</h3>
-                        
-                        <!-- Comment Input Form -->
-                        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px;">
-                            <input type="text" id="commenterName" placeholder="Your Name or Nickname" class="search-input" style="padding: 10px 14px;">
-                            <textarea id="commentText" rows="2" placeholder="Leave a review or request a movie..." class="search-input" style="padding: 10px 14px; resize: none;"></textarea>
-                            <button onclick="postComment()" class="back-btn" style="background: var(--primary); color: white; align-self: flex-start; margin-bottom: 0; padding: 8px 14px;">Post Comment</button>
-                        </div>
-
-                        <!-- Live Comments Feed -->
-                        <div id="commentsFeed" style="display: flex; flex-direction: column; gap: 8px;">
-                            <!-- Dynamic comments will render here -->
-                        </div>
-                    </div>
-
-                    <a id="detailLink" href="https://www.youtube.com/watch?v=I2pkCtklv_A" target="_blank" class="action-btn">Get File / Watch Now</a>
+                    <a id="detailLink" href="#" target="_blank" class="action-btn">Get File / Watch Now</a>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- DATABASE & ROUTING SCRIPTS -->
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-col">
+            <div class="footer-section-title">Quick Links</div>
+            <ul class="footer-links-list">
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms & Conditions</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <div class="footer-section-title">Follow Us</div>
+            <ul class="footer-links-list">
+                <li><a href="#" target="_blank">YouTube Channel</a></li>
+                <li><a href="#" target="_blank">Instagram Page</a></li>
+                <li><a href="#" target="_blank">TikTok Community</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <div class="footer-section-title">Contact Us</div>
+            <ul class="footer-links-list">
+                <li><span>📞 +250 788 821 628</span></li>
+                <li><span>💬 +250 788 821 628</span></li>
+            </ul>
+        </div>
+
+        <div class="copyright-bar">
+            &copy; 2026 Vortex Cinema. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // MOVIE DATABASE OBJECT
         const movieDatabase = {
             "saiyaara": {
                 title: "Saiyaara Agasobanuye (Rocky Kimomo)",
-                meta: "2026 • Full HD • Translated by Rocky",
-                desc: "Experience the ultimate Indian action romance film translated into Kinyarwanda by the legendary Rocky Kimomo. High quality video with crystal clear audio stream.",
+                meta: "2026 • Full HD • Translated by Rocky Kimomo",
+                desc: "Experience the ultimate Indian action romance film translated into Kinyarwanda by Rocky Kimomo.",
                 poster: "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=400",
                 targetUrl: "https://www.youtube.com/watch?v=I2pkCtklv_A"
             },
             "first-sunday": {
-                title: "First Sunday (2008)",
+                title: "First Sunday (Junior Giti)",
                 meta: "2008 • HD • Comedy / Action",
-                desc: "Two petty criminals plan to rob their local church, but find themselves in over their heads when someone else gets to the money first.",
+                desc: "Translated into Kinyarwanda by Junior Giti. Two petty criminals plan a local heist.",
                 poster: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400",
-                targetUrl: "https://direct-link.net/7416154/u0lsnCRo4gm6"
+                targetUrl: "#"
             },
             "fast-x": {
                 title: "Fast X (2023)",
                 meta: "2023 • 1080p • Action / Thriller",
-                desc: "Dom Toretto and his family are targeted by the vengeful son of drug kingpin Hernan Reyes.",
+                desc: "Dom Toretto and his family face their most lethal opponent yet.",
                 poster: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=400",
                 targetUrl: "#"
             },
             "gta-mobile": {
                 title: "GTA Mobile Mod APK",
                 meta: "Android • Full Game • Offline",
-                desc: "Download the fully unlocked GTA Mobile edition for Android devices. Features remastered graphics and unlimited money mod.",
+                desc: "Download fully unlocked GTA Mobile edition for Android devices.",
                 poster: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400",
                 targetUrl: "#"
             }
         };
 
-        // ROUTING SYSTEM
+        function toggleDrawer() {
+            document.getElementById('sidebarDrawer').classList.toggle('active');
+            document.getElementById('drawerOverlay').classList.toggle('active');
+        }
+
         function navigateTo(viewId) {
             document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active-view'));
             if (viewId === 'home') {
@@ -543,18 +745,15 @@
             window.scrollTo(0, 0);
         }
 
-        // SEARCH ENGINE
         function filterItems() {
             const query = document.getElementById('searchInput').value.toLowerCase();
             const cards = document.querySelectorAll('.card');
-
             cards.forEach(card => {
                 const titleTag = card.getAttribute('data-title').toLowerCase();
                 card.style.display = titleTag.includes(query) ? 'flex' : 'none';
             });
         }
 
-        // CATEGORY CHIPS FILTER
         function filterCategory(category, chipElement) {
             document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
             chipElement.classList.add('active');
@@ -564,34 +763,6 @@
                 const itemCat = card.getAttribute('data-category');
                 card.style.display = (category === 'all' || itemCat.includes(category)) ? 'flex' : 'none';
             });
-
-            document.getElementById('catalogHeading').innerText = category === 'all' ? "Trending Releases" : category.toUpperCase() + " Catalog";
-        }
-
-        // ADDED COMMENT FUNCTIONALITY
-        function postComment() {
-            const nameInput = document.getElementById('commenterName');
-            const textInput = document.getElementById('commentText');
-            const feed = document.getElementById('commentsFeed');
-
-            const name = nameInput.value.trim() || "Anonymous";
-            const text = textInput.value.trim();
-
-            if (!text) {
-                alert("Please write a comment or request before posting.");
-                return;
-            }
-
-            const commentCard = document.createElement('div');
-            commentCard.style.cssText = "background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); font-size: 13px;";
-            commentCard.innerHTML = `<strong>${escapeHtml(name)}</strong><p style="color: var(--text-muted); margin-top: 4px;">${escapeHtml(text)}</p>`;
-
-            feed.prepend(commentCard);
-            textInput.value = '';
-        }
-
-        function escapeHtml(str) {
-            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
         }
     </script>
 </body>
