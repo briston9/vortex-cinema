@@ -1,445 +1,556 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="google-site-verification" content="WG3vh2SeB77FDdJzZglNYlKnQhaweB69znQo9N5Lo80" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vortex Cinema - Stream & Download</title>
+    <title>Vortex Cinema - Watch & Download Agasobanuye</title>
     <style>
-        /* Base Setup & Colors */
+        /* --- CSS VARIABLES & SYSTEM RESET --- */
+        :root {
+            --primary: #e50914;
+            --primary-hover: #b20710;
+            --bg-main: #0b0c10;
+            --bg-card: #14161d;
+            --bg-glass: rgba(20, 22, 29, 0.75);
+            --text-main: #ffffff;
+            --text-muted: #9aa0a6;
+            --glow: rgba(229, 9, 20, 0.4);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: #0c0c0c;
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
+            background-color: var(--bg-main);
+            color: var(--text-main);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 40px;
         }
 
-        /* Top Header Styling */
+        /* --- HEADER & NAVIGATION --- */
         header {
-            background: linear-gradient(180deg, #e50914 0%, #b20710 100%);
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 12px 16px;
         }
 
-        header h1 {
-            font-size: 28px;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        }
-
-        /* Navigation Tabs & Search Bar Container */
-        .nav-container {
-            background-color: #141414;
-            padding: 12px 15px;
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             flex-direction: column;
             gap: 12px;
+        }
+
+        .brand {
+            display: flex;
             align-items: center;
-            border-bottom: 2px solid #222;
-        }
-
-        /* Horizontal Scrollable Menu for Mobile Phones */
-        .main-nav {
-            display: flex;
-            gap: 12px;
-            overflow-x: auto;
-            width: 100%;
-            padding-bottom: 5px;
-            white-space: nowrap;
-            scrollbar-width: none;
-        }
-
-        .main-nav::-webkit-scrollbar {
-            display: none;
-        }
-
-        .nav-item {
-            color: #aaaaaa;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            padding: 6px 14px;
-            border-radius: 20px;
-            background-color: #222;
-            transition: all 0.3s ease;
-        }
-
-        .nav-item.active, .nav-item:hover {
-            color: #ffffff;
-            background-color: #e50914;
-        }
-
-        /* Search Input Styling */
-        .search-box {
-            display: flex;
-            width: 100%;
-            max-width: 450px;
-        }
-
-        .search-box input {
-            flex: 1;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px 0 0 4px;
-            outline: none;
-            background-color: #222;
-            color: white;
-            font-size: 14px;
-        }
-
-        .search-box button {
-            padding: 10px 20px;
-            background-color: #e50914;
-            color: white;
-            border: none;
-            border-radius: 0 4px 4px 0;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.2s;
-        }
-
-        .search-box button:hover {
-            background-color: #b20710;
-        }
-
-        /* Media Grid System */
-        .content-section {
-            padding: 20px;
-            flex: 1;
-        }
-
-        .section-title {
-            font-size: 20px;
-            margin-bottom: 15px;
-            border-left: 4px solid #e50914;
-            padding-left: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .movie-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 15px;
-        }
-
-        /* Individual Movie/Game Card Setup */
-        .media-card {
-            background-color: #1a1a1a;
-            border-radius: 6px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            transition: transform 0.2s;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .media-card:hover {
-            transform: scale(1.03);
-        }
-
-        .media-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background-color: #333;
-        }
-
-        .media-info {
-            padding: 10px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
             justify-content: space-between;
         }
 
-        .media-title {
+        .logo {
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: var(--primary);
+            text-transform: uppercase;
+            text-shadow: 0 0 12px var(--glow);
+            text-decoration: none;
+        }
+
+        /* Search Input Component */
+        .search-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px;
+            padding-right: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
             font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 8px;
-            line-height: 1.2;
-            height: 34px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 15px var(--glow);
+        }
+
+        /* Category Chips (Horizontal Scroll) */
+        .categories-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 4px 0;
+            scrollbar-width: none;
+        }
+
+        .categories-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .chip {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid transparent;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .chip:hover, .chip.active {
+            color: var(--text-main);
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px var(--glow);
+        }
+
+        /* --- LAYOUT CONTAINER --- */
+        main {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px 16px;
+            flex: 1;
+        }
+
+        /* --- PAGE VIEWS (Routing) --- */
+        .page-view {
+            display: none;
+        }
+
+        .page-view.active-view {
+            display: block;
+        }
+
+        .section-header {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-header::before {
+            content: '';
+            width: 4px;
+            height: 18px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* --- MEDIA GRID & HOVER EFFECTS --- */
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 columns on small phones */
+            gap: 14px;
+        }
+
+        /* Mobile-First Breakpoints */
+        @media (min-width: 600px) {
+            .media-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+            .header-container { flex-direction: row; align-items: center; }
+            .search-wrapper { max-width: 320px; }
+        }
+
+        @media (min-width: 900px) {
+            .media-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* HOVER / TOUCH ANIMATIONS */
+        .card:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: rgba(229, 9, 20, 0.5);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5), 0 0 15px var(--glow);
+        }
+
+        .card-thumbnail-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 140%; /* 4:5 aspect ratio */
+            overflow: hidden;
+            background: #1c1f2a;
+        }
+
+        .card-thumbnail {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-thumbnail {
+            transform: scale(1.08); /* Image zoom on hover */
+        }
+
+        .badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            color: var(--primary);
+            font-size: 10px;
+            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            border: 1px solid rgba(229, 9, 20, 0.3);
+        }
+
+        .card-body {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.3;
+            color: var(--text-main);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
             overflow: hidden;
         }
 
-        /* Download/Watch Button */
-        .download-btn {
-            display: block;
-            background-color: #e50914;
-            color: white;
-            text-decoration: none;
-            text-align: center;
-            padding: 8px 0;
-            font-size: 12px;
-            font-weight: bold;
-            border-radius: 4px;
+        .card-meta {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* --- DETAILS PAGE (SINGLE MOVIE VIEW) --- */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 20px;
             transition: background 0.2s;
-            text-transform: uppercase;
         }
 
-        .download-btn:hover {
-            background-color: #b20710;
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
         }
 
-        .no-results {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 30px;
-            color: #888;
-            font-size: 16px;
+        .details-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            background: var(--bg-card);
+            border-radius: 18px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* Sponsor & Contact Section Footer */
-        footer {
-            background-color: #111111;
-            border-top: 3px solid #e50914;
-            padding: 25px 20px;
-            margin-top: 40px;
-            text-align: center;
+        @media (min-width: 768px) {
+            .details-wrapper {
+                flex-direction: row;
+                align-items: flex-start;
+            }
         }
 
-        .sponsor-box {
-            max-width: 600px;
+        .details-poster {
+            width: 100%;
+            max-width: 280px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
             margin: 0 auto;
         }
 
-        .sponsor-title {
-            color: #e50914;
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .sponsor-text {
-            color: #cccccc;
-            font-size: 14px;
-            margin-bottom: 15px;
-            line-height: 1.4;
-        }
-
-        .contact-details {
+        .details-content {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 14px;
+        }
+
+        .details-title {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .details-description {
             font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
         }
 
-        .contact-item a {
-            color: #ffffff;
+        .instruction-box {
+            background: rgba(229, 9, 20, 0.08);
+            border-left: 4px solid var(--primary);
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #dddddd;
+        }
+
+        .action-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: var(--primary);
+            color: white;
             text-decoration: none;
-            font-weight: bold;
-        }
-
-        .contact-item a:hover {
-            color: #e50914;
-            text-decoration: underline;
-        }
-
-        .location-tag {
-            color: #888888;
-            font-size: 12px;
-            margin-top: 10px;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 15px;
             text-transform: uppercase;
+            box-shadow: 0 4px 15px var(--glow);
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--glow);
         }
     </style>
 </head>
 <body>
 
-    <!-- Main Branding Header -->
+    <!-- HEADER & NAVIGATION -->
     <header>
-        <h1>VORTEX CINEMA</h1>
+        <div class="header-container">
+            <div class="brand">
+                <a href="#" class="logo" onclick="navigateTo('home')">VORTEX CINEMA</a>
+            </div>
+
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search movies, VJs (Rocky...)" onkeyup="filterItems()">
+            </div>
+        </div>
+
+        <div class="header-container" style="margin-top: 10px;">
+            <div class="categories-scroll">
+                <button class="chip active" onclick="filterCategory('all', this)">All</button>
+                <button class="chip" onclick="filterCategory('action', this)">Action</button>
+                <button class="chip" onclick="filterCategory('agasobanuye', this)">Agasobanuye</button>
+                <button class="chip" onclick="filterCategory('scifi', this)">Sci-Fi</button>
+                <button class="chip" onclick="filterCategory('horror', this)">Horror</button>
+                <button class="chip" onclick="filterCategory('games', this)">Games</button>
+            </div>
+        </div>
     </header>
 
-    <!-- Navigation System & Interactive Search -->
-    <div class="nav-container">
-        <nav class="main-nav">
-            <a href="#" class="nav-item active" onclick="filterGenre('all', this)">Home</a>
-            <a href="#" class="nav-item" onclick="filterGenre('action', this)">Action</a>
-            <a href="#" class="nav-item" onclick="filterGenre('scifi', this)">Sci-Fi</a>
-            <a href="#" class="nav-item" onclick="filterGenre('horror', this)">Horror</a>
-            <a href="#" class="nav-item" onclick="filterGenre('romance', this)">Romance</a>
-            <a href="#" class="nav-item" onclick="filterGenre('games', this)">Games</a>
-        </nav>
+    <!-- MAIN VIEW WRAPPER -->
+    <main>
         
-        <div class="search-box">
-            <input type="text" id="movieSearch" placeholder="Search movies or games..." onkeyup="searchFunction()">
-            <button onclick="searchFunction()">Search</button>
-        </div>
-    </div>
+        <!-- VIEW 1: HOME CATALOG GRID -->
+        <section id="homeView" class="page-view active-view">
+            <div class="section-header" id="catalogHeading">Trending Releases</div>
+            <div class="media-grid" id="catalogGrid">
+                
+                <!-- CARD 1: Saiyaara -->
+                <div class="card" data-id="saiyaara" data-category="agasobanuye action" data-title="saiyaara agasobanuye rocky kimomo indian" onclick="openDetails('saiyaara')">
+                    <div class="card-thumbnail-wrapper">
+                        <span class="badge">Rocky Kimomo</span>
+                        <img src="https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=400" class="card-thumbnail" alt="Saiyaara">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title">Saiyaara Agasobanuye</div>
+                        <div class="card-meta">2026 • HD • Action</div>
+                    </div>
+                </div>
 
-    <!-- Main Display Grid -->
-    <main class="content-section">
-        
-        <!-- Interactive User Download Instructions Box -->
-        <div style="background: rgba(229, 9, 20, 0.1); border-left: 4px solid #e50914; padding: 15px; margin-bottom: 25px; border-radius: 4px;">
-            <p style="font-weight: bold; color: #e50914; margin-bottom: 5px; text-transform: uppercase; font-size: 14px; letter-spacing: 0.5px;">⚠️ How to Watch & Download:</p>
-            <ol style="color: #cccccc; font-size: 13px; padding-left: 18px; line-height: 1.5;">
-                <li>Click the <span style="color: #fff; font-weight: bold;">Watch / Download</span> button on your favorite movie.</li>
-                <li>On the next page, click <span style="color: #fff; font-weight: bold;">"Access Articles"</span> or <span style="color: #fff; font-weight: bold;">"Search Images"</span>.</li>
-                <li>Discover content or wait <span style="color: #e50914; font-weight: bold;">15 seconds</span>, then close that tab.</li>
-                <li>Tap <span style="color: #fff; font-weight: bold;">"Get Link"</span> to instantly stream or download your file!</li>
-            </ol>
-        </div>
+                <!-- CARD 2: First Sunday -->
+                <div class="card" data-id="first-sunday" data-category="action" data-title="first sunday comedy action" onclick="openDetails('first-sunday')">
+                    <div class="card-thumbnail-wrapper">
+                        <span class="badge">Monetized</span>
+                        <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400" class="card-thumbnail" alt="First Sunday">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title">First Sunday</div>
+                        <div class="card-meta">2008 • HD • Comedy</div>
+                    </div>
+                </div>
 
-        <h2 class="section-title" id="displayTitle">All Catalog Items</h2>
-        
-        <div class="movie-grid" id="catalogGrid">
+                <!-- CARD 3: Fast X -->
+                <div class="card" data-id="fast-x" data-category="action" data-title="fast x fast and furious 10" onclick="openDetails('fast-x')">
+                    <div class="card-thumbnail-wrapper">
+                        <span class="badge">Action</span>
+                        <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=400" class="card-thumbnail" alt="Fast X">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title">Fast X</div>
+                        <div class="card-meta">2023 • HD • Racing</div>
+                    </div>
+                </div>
+
+                <!-- CARD 4: GTA Mobile -->
+                <div class="card" data-id="gta-mobile" data-category="games" data-title="gta mobile mod apk grand theft auto" onclick="openDetails('gta-mobile')">
+                    <div class="card-thumbnail-wrapper">
+                        <span class="badge">APK</span>
+                        <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400" class="card-thumbnail" alt="GTA Mobile">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title">GTA Mobile Mod</div>
+                        <div class="card-meta">Android • 1.2 GB</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- VIEW 2: DETAILS PAGE (DYNAMIC ROUTE) -->
+        <section id="detailsView" class="page-view">
+            <button class="back-btn" onclick="navigateTo('home')">← Back to Catalog</button>
             
-            <!-- ACTION MOVIE 1: First Sunday (Monetized Link) -->
-            <div class="media-card" data-title="first sunday" data-genre="action">
-                <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400" alt="First Sunday">
-                <div class="media-info">
-                    <div class="media-title">First Sunday (2008)</div>
-                    <a href="https://direct-link.net/7416154/u0lsnCRo4gm6" target="_blank" class="download-btn">Watch / Download</a>
+            <div class="details-wrapper">
+                <img id="detailPoster" src="" class="details-poster" alt="Movie Poster">
+                <div class="details-content">
+                    <h1 id="detailTitle" class="details-title">Title Here</h1>
+                    <div id="detailMeta" style="color: var(--primary); font-size: 13px; font-weight: 700;">Meta Info</div>
+                    <p id="detailDesc" class="details-description">Description text...</p>
+                    
+                    <div class="instruction-box">
+                        <strong>⚠️ Fast Unlock Instructions:</strong>
+                        <ol style="margin-top: 6px; padding-left: 18px;">
+                            <li>Tap <strong>Get File / Download</strong> below.</li>
+                            <li>Wait 15 seconds on the verified page.</li>
+                            <li>Click <strong>Get Link</strong> to start streaming!</li>
+                        </ol>
+                    </div>
+
+                    <a id="detailLink" href="#" target="_blank" class="action-btn">Get File / Watch Now</a>
                 </div>
             </div>
+        </section>
 
-            <!-- ACTION MOVIE 2: Bad Boys: Ride or Die -->
-            <div class="media-card" data-title="bad boys ride or die" data-genre="action">
-                <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=400" alt="Bad Boys">
-                <div class="media-info">
-                    <div class="media-title">Bad Boys: Ride or Die</div>
-                    <a href="#" class="download-btn">Watch / Download</a>
-                </div>
-            </div>
-
-            <!-- ACTION MOVIE 3: Fast X -->
-            <div class="media-card" data-title="fast x fast and furious 10" data-genre="action">
-                <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=400" alt="Fast X">
-                <div class="media-info">
-                    <div class="media-title">Fast X (2023)</div>
-                    <a href="#" class="download-btn">Watch / Download</a>
-                </div>
-            </div>
-
-            <!-- ACTION MOVIE 4: Deadpool & Wolverine -->
-            <div class="media-card" data-title="deadpool and wolverine" data-genre="action">
-                <img src="https://images.unsplash.com/photo-1608889174637-3c44f6326f60?w=400" alt="Deadpool">
-                <div class="media-info">
-                    <div class="media-title">Deadpool & Wolverine</div>
-                    <a href="#" class="download-btn">Watch / Download</a>
-                </div>
-            </div>
-
-            <!-- SCI-FI MOVIE 1 -->
-            <div class="media-card" data-title="interstellar" data-genre="scifi">
-                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400" alt="Sci-Fi Movie">
-                <div class="media-info">
-                    <div class="media-title">Interstellar Star</div>
-                    <a href="#" class="download-btn">Watch / Download</a>
-                </div>
-            </div>
-
-            <!-- HORROR MOVIE 1 -->
-            <div class="media-card" data-title="the safe house" data-genre="horror">
-                <img src="https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=400" alt="Horror Movie">
-                <div class="media-info">
-                    <div class="media-title">The Safe House</div>
-                    <a href="#" class="download-btn">Watch / Download</a>
-                </div>
-            </div>
-
-            <!-- ROMANCE MOVIE 1 -->
-            <div class="media-card" data-title="love story" data-genre="romance">
-                <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400" alt="Romance Movie">
-                <div class="media-info">
-                    <div class="media-title">Endless Romance</div>
-                    <a href="#" class="download-btn">Watch / Download</a>
-                </div>
-            </div>
-
-            <!-- GAME 1 -->
-            <div class="media-card" data-title="grand theft auto mobile" data-genre="games">
-                <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400" alt="Game Cover">
-                <div class="media-info">
-                    <div class="media-title">GTA Mobile Mod</div>
-                    <a href="#" class="download-btn">Download APK</a>
-                </div>
-            </div>
-
-        </div>
     </main>
 
-    <!-- Professional Business & Sponsorship Footer -->
-    <footer>
-        <div class="sponsor-box">
-            <p class="sponsor-title">Partner / Sponsor With Us</p>
-            <p class="sponsor-text">Want to advertise your brand, platform, or business on Vortex Cinema? Contact management directly below for business placements.</p>
-            
-            <div class="contact-details">
-                <p class="contact-item">📧 Email: <a href="mailto:bristonbalton9@gmail.com">bristonbalton9@gmail.com</a></p>
-                <p class="contact-item">📞 Phone: <a href="tel:0796407131">0796407131</a></p>
-            </div>
-            
-            <p class="location-tag">📍 Kigali, Rwanda</p>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
+    <!-- DATABASE & ROUTING SCRIPTS -->
     <script>
-        function searchFunction() {
-            let input = document.getElementById('movieSearch').value.toLowerCase();
-            let cards = document.getElementsByClassName('media-card');
-            let visibleCount = 0;
-
-            for (let i = 0; i < cards.length; i++) {
-                let title = cards[i].getAttribute('data-title');
-                if (title.includes(input)) {
-                    cards[i].style.display = "";
-                    visibleCount++;
-                } else {
-                    cards[i].style.display = "none";
-                }
+        // MOVIE DATABASE OBJECT
+        const movieDatabase = {
+            "saiyaara": {
+                title: "Saiyaara Agasobanuye (Rocky Kimomo)",
+                meta: "2026 • Full HD • Translated by Rocky",
+                desc: "Experience the ultimate Indian action romance film translated into Kinyarwanda by the legendary Rocky Kimomo. High quality video with crystal clear audio stream.",
+                poster: "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=400",
+                targetUrl: "https://www.youtube.com/watch?v=I2pkCtklv_A"
+            },
+            "first-sunday": {
+                title: "First Sunday (2008)",
+                meta: "2008 • HD • Comedy / Action",
+                desc: "Two petty criminals plan to rob their local church, but find themselves in over their heads when someone else gets to the money first.",
+                poster: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400",
+                targetUrl: "https://direct-link.net/7416154/u0lsnCRo4gm6"
+            },
+            "fast-x": {
+                title: "Fast X (2023)",
+                meta: "2023 • 1080p • Action / Thriller",
+                desc: "Dom Toretto and his family are targeted by the vengeful son of drug kingpin Hernan Reyes.",
+                poster: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=400",
+                targetUrl: "#"
+            },
+            "gta-mobile": {
+                title: "GTA Mobile Mod APK",
+                meta: "Android • Full Game • Offline",
+                desc: "Download the fully unlocked GTA Mobile edition for Android devices. Features remastered graphics and unlimited money mod.",
+                poster: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400",
+                targetUrl: "#"
             }
+        };
 
-            let oldNotice = document.getElementById('noMatchNotice');
-            if (oldNotice) oldNotice.remove();
-
-            if (visibleCount === 0) {
-                let grid = document.getElementById('catalogGrid');
-                let notice = document.createElement('div');
-                notice.id = 'noMatchNotice';
-                notice.className = 'no-results';
-                notice.innerText = 'No movies or games match your search term.';
-                grid.appendChild(notice);
+        // ROUTING SYSTEM
+        function navigateTo(viewId) {
+            document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active-view'));
+            if (viewId === 'home') {
+                document.getElementById('homeView').classList.add('active-view');
+                window.scrollTo(0, 0);
             }
         }
 
-        function filterGenre(genre, element) {
-            let cards = document.getElementsByClassName('media-card');
-            let displayTitle = document.getElementById('displayTitle');
-            
-            let navItems = document.getElementsByClassName('nav-item');
-            for(let i=0; i < navItems.length; i++) {
-                navItems[i].classList.remove('active');
-            }
-            element.classList.add('active');
+        function openDetails(id) {
+            const item = movieDatabase[id];
+            if (!item) return;
 
-            for (let i = 0; i < cards.length; i++) {
-                let cardGenre = cards[i].getAttribute('data-genre');
-                if (genre === 'all' || cardGenre === genre) {
-                    cards[i].style.display = "";
-                } else {
-                    cards[i].style.display = "none";
-                }
-            }
+            document.getElementById('detailTitle').innerText = item.title;
+            document.getElementById('detailMeta').innerText = item.meta;
+            document.getElementById('detailDesc').innerText = item.desc;
+            document.getElementById('detailPoster').src = item.poster;
+            document.getElementById('detailLink').href = item.targetUrl;
 
-            displayTitle.innerText = genre === 'all' ? "All Catalog Items" : genre.charAt(0).toUpperCase() + genre.slice(1) + " Selection";
-            
-            document.getElementById('movieSearch').value = "";
-            let oldNotice = document.getElementById('noMatchNotice');
-            if (oldNotice) oldNotice.remove();
+            document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active-view'));
+            document.getElementById('detailsView').classList.add('active-view');
+            window.scrollTo(0, 0);
+        }
+
+        // SEARCH ENGINE
+        function filterItems() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+                const titleTag = card.getAttribute('data-title').toLowerCase();
+                card.style.display = titleTag.includes(query) ? 'flex' : 'none';
+            });
+        }
+
+        // CATEGORY CHIPS FILTER
+        function filterCategory(category, chipElement) {
+            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            chipElement.classList.add('active');
+
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const itemCat = card.getAttribute('data-category');
+                card.style.display = (category === 'all' || itemCat.includes(category)) ? 'flex' : 'none';
+            });
+
+            document.getElementById('catalogHeading').innerText = category === 'all' ? "Trending Releases" : category.toUpperCase() + " Catalog";
         }
     </script>
 </body>
