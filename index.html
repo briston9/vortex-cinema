@@ -170,7 +170,7 @@
 
         .drawer-links a:hover { color: var(--primary); }
 
-        /* --- SEARCH & TRANSLATOR CHIPS --- */
+        /* --- SEARCH & CHIPS --- */
         .search-container {
             max-width: 1200px;
             margin: 20px auto 0 auto;
@@ -233,7 +233,7 @@
             box-shadow: 0 4px 15px var(--glow);
         }
 
-        /* --- FEATURED SPOTLIGHT BANNER --- */
+        /* --- SPOTLIGHT BANNER --- */
         .spotlight-section {
             max-width: 1200px;
             margin: 20px auto;
@@ -568,7 +568,7 @@
         </div>
     </header>
 
-    <!-- SIDEBAR DRAWER OVERLAY & PANEL -->
+    <!-- SIDEBAR DRAWER -->
     <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
     <div class="sidebar-drawer" id="sidebarDrawer">
         <div class="drawer-header">
@@ -587,14 +587,13 @@
         <input type="text" id="searchInput" class="search-input" placeholder="Shakisha film cyangwa umusobanuzi..." onkeyup="filterItems()">
     </div>
 
-    <!-- TRANSLATOR FILTER CHIPS -->
+    <!-- TRANSLATOR CHIPS -->
     <div class="categories-container">
         <div class="categories-scroll">
             <button class="chip active" onclick="filterTranslator('all', this)">⚡ All Releases</button>
             <button class="chip" onclick="filterTranslator('rocky', this)">🔥 Rocky Kimomo</button>
             <button class="chip" onclick="filterTranslator('junior', this)">🎬 Junior Giti</button>
-            <button class="chip" onclick="filterTranslator('pk', this)">🎯 PK The Soulless</button>
-            <button class="chip" onclick="filterTranslator('savimbi', this)">👑 Mussa Savimbi</button>
+            <button class="chip" onclick="filterTranslator('series', this)">📺 Series & Episodes</button>
         </div>
     </div>
 
@@ -606,9 +605,9 @@
             </div>
             <div class="spotlight-content">
                 <div class="spotlight-tag">Trending #1 Release</div>
-                <h1 class="spotlight-title">Fifty Shades Freed (Agasobanuye)</h1>
-                <p class="spotlight-desc">Believing they have left behind shadowy figures from their past, newlyweds Christian and Ana fully embrace an inextricable connection and shared life of luxury.</p>
-                <button class="spotlight-btn" onclick="openDetails('fifty-freed')">Download Now &rarr;</button>
+                <h1 class="spotlight-title">Agent Kim Ep 1 (Agasobanuye)</h1>
+                <p class="spotlight-desc">Catch the brand new high-stakes action series premiere translated in Agasobanuye. Download safely and instantly via MediaFire.</p>
+                <button class="spotlight-btn" onclick="openDetails('agent-kim-1')">Download Now &rarr;</button>
             </div>
         </div>
     </div>
@@ -619,6 +618,25 @@
         <!-- HOME CATALOG VIEW -->
         <section id="homeView" class="page-view active-view">
             
+            <!-- SERIES & EPISODES SECTION -->
+            <div class="category-section" data-translator="series">
+                <div class="section-header-flex">
+                    <h2 class="section-title"><span>Series &</span> Episodes</h2>
+                </div>
+                <div class="horizontal-scroll-row">
+                    <div class="card" onclick="openDetails('agent-kim-1')">
+                        <div class="card-thumbnail-wrapper">
+                            <span class="card-badge" style="background:var(--cyan-glow); color:#000;">New</span>
+                            <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400" class="card-thumbnail" alt="Agent Kim Ep 1">
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">Agent Kim Ep 1</div>
+                            <div class="card-meta">Series • MediaFire</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- ROCKY KIMOMO SECTION -->
             <div class="category-section" data-translator="rocky">
                 <div class="section-header-flex">
@@ -635,45 +653,6 @@
                             <div class="card-meta">HD • MediaFire</div>
                         </div>
                     </div>
-                    <div class="card" onclick="openDetails('fifty-darker')">
-                        <div class="card-thumbnail-wrapper">
-                            <span class="card-badge">Rocky</span>
-                            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" class="card-thumbnail" alt="Fifty Shades Darker">
-                        </div>
-                        <div class="card-body">
-                            <div class="card-title">Fifty Shades Darker</div>
-                            <div class="card-meta">HD • MediaFire</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- JUNIOR GITI SECTION -->
-            <div class="category-section" data-translator="junior">
-                <div class="section-header-flex">
-                    <h2 class="section-title"><span>Junior Giti</span> Collection</h2>
-                </div>
-                <div class="horizontal-scroll-row">
-                    <div class="card" onclick="openDetails('last-house')">
-                        <div class="card-thumbnail-wrapper">
-                            <span class="card-badge" style="background:var(--cyan-glow); color:#000;">Junior</span>
-                            <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400" class="card-thumbnail" alt="The Last House">
-                        </div>
-                        <div class="card-body">
-                            <div class="card-title">The Last House</div>
-                            <div class="card-meta">Horror • MediaFire</div>
-                        </div>
-                    </div>
-                    <div class="card" onclick="openDetails('devils-mouth')">
-                        <div class="card-thumbnail-wrapper">
-                            <span class="card-badge" style="background:var(--cyan-glow); color:#000;">Junior</span>
-                            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" class="card-thumbnail" alt="The Devil's Mouth">
-                        </div>
-                        <div class="card-body">
-                            <div class="card-title">The Devil's Mouth</div>
-                            <div class="card-meta">Thriller • MediaFire</div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -688,7 +667,6 @@
                     <h1 id="detailTitle" class="details-title">Title Here</h1>
                     <div id="detailMeta" style="color: var(--cyan-glow); font-size: 13px; font-weight: 700;">Meta Info</div>
                     <p id="detailDesc" class="details-description">Description text...</p>
-                    <!-- MediaFire Direct Cloud Download Button -->
                     <a id="detailLink" href="#" target="_blank" class="action-btn">Download via MediaFire &rarr;</a>
                 </div>
             </div>
@@ -732,35 +710,20 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Replace '#' with your actual MediaFire direct download links for each movie file
         const movieDatabase = {
+            "agent-kim-1": {
+                title: "Agent Kim ",
+                meta: "Series • Agasobanuye HD",
+                desc: "Agent Kim . High-octane action series translated in Agasobanuye.",
+                poster: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400",
+                targetUrl: "https://www.mediafire.com/file/YOUR_MEDIAFIRE_LINK_AGENT_KIM" 
+            },
             "fifty-freed": {
                 title: "Fifty Shades Freed",
                 meta: "Rocky Kimomo • Agasobanuye HD",
                 desc: "Believing they have left behind shadowy figures from their past, newlyweds Christian and Ana fully embrace an inextricable connection and shared life of luxury.",
                 poster: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400",
                 targetUrl: "https://www.mediafire.com/file/YOUR_MEDIAFIRE_LINK_1" 
-            },
-            "fifty-darker": {
-                title: "Fifty Shades Darker",
-                meta: "Rocky Kimomo • Agasobanuye HD",
-                desc: "When a wounded Christian Grey tries to cajole a cautious Ana Steele back into his life, she demands a new arrangement before she will give him another chance.",
-                poster: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400",
-                targetUrl: "https://www.mediafire.com/file/YOUR_MEDIAFIRE_LINK_2"
-            },
-            "last-house": {
-                title: "The Last House",
-                meta: "Junior Giti • Horror Release",
-                desc: "After seeking shelter in a remote cabin, a group of travelers realize dark forces are hunting them down one by one.",
-                poster: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400",
-                targetUrl: "https://www.mediafire.com/file/YOUR_MEDIAFIRE_LINK_3"
-            },
-            "devils-mouth": {
-                title: "The Devil's Mouth",
-                meta: "Junior Giti • Thriller",
-                desc: "Deep sea divers uncover an ancient underwater opening that releases a terrifying entity.",
-                poster: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400",
-                targetUrl: "https://www.mediafire.com/file/YOUR_MEDIAFIRE_LINK_4"
             }
         };
 
