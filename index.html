@@ -475,15 +475,25 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 16px;
         }
 
         .details-title { font-size: 26px; font-weight: 900; }
         .details-description { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
 
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        @media(min-width: 480px) {
+            .button-group { flex-direction: row; }
+        }
+
         .action-btn {
-            display: block;
-            width: 100%;
+            flex: 1;
             text-align: center;
             background: var(--primary);
             color: white;
@@ -491,16 +501,51 @@
             padding: 14px;
             border-radius: 12px;
             font-weight: 700;
-            font-size: 15px;
+            font-size: 14px;
             text-transform: uppercase;
             box-shadow: 0 4px 20px var(--glow);
             transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .action-btn.download-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: none;
         }
 
         .action-btn:hover {
             background: var(--primary-hover);
             transform: translateY(-2px);
             box-shadow: 0 8px 30px var(--glow);
+        }
+
+        .action-btn.download-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: none;
+        }
+
+        /* --- VIDEO PLAYER MODAL / SECTION --- */
+        .video-container {
+            display: none;
+            margin-top: 20px;
+            width: 100%;
+            background: #000;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .video-container.active {
+            display: block;
+        }
+
+        video {
+            width: 100%;
+            max-height: 450px;
+            display: block;
+            background: #000;
         }
 
         /* --- FOOTER --- */
@@ -606,8 +651,8 @@
             <div class="spotlight-content">
                 <div class="spotlight-tag">Trending #1 Release</div>
                 <h1 class="spotlight-title">Agent Kim Ep 1 (Agasobanuye)</h1>
-                <p class="spotlight-desc">Catch the brand new high-stakes action series premiere translated in Agasobanuye. Download safely and instantly via MediaFire.</p>
-                <button class="spotlight-btn" onclick="openDetails('agent-kim-1')">Download Now &rarr;</button>
+                <p class="spotlight-desc">Catch the brand new high-stakes action series premiere translated in Agasobanuye. Watch online or download securely via MediaFire.</p>
+                <button class="spotlight-btn" onclick="openDetails('agent-kim-1')">Watch / Download &rarr;</button>
             </div>
         </div>
     </div>
@@ -667,7 +712,21 @@
                     <h1 id="detailTitle" class="details-title">Title Here</h1>
                     <div id="detailMeta" style="color: var(--cyan-glow); font-size: 13px; font-weight: 700;">Meta Info</div>
                     <p id="detailDesc" class="details-description">Description text...</p>
-                    <a id="detailLink" href="#" target="_blank" class="action-btn">Download via MediaFire &rarr;</a>
+                    
+                    <!-- ACTION BUTTONS -->
+                    <div class="button-group">
+                        <button class="action-btn" onclick="playVideo()">▶ Watch Online</button>
+                        <a id="detailLink" href="#" target="_blank" class="action-btn download-btn">⬇ Download (MediaFire)</a>
+                    </div>
+
+                    <!-- EMBEDDED VIDEO PLAYER -->
+                    <div id="videoContainer" class="video-container">
+                        <video id="moviePlayer" controls>
+                            <source id="videoSource" src="" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -712,10 +771,11 @@
     <script>
         const movieDatabase = {
             "agent-kim-1": {
-                title: "Agent Kim ",
+                title: "Agent Kim Ep 1",
                 meta: "Series • Agasobanuye HD",
-                desc: "Agent Kim . High-octane action series translated in Agasobanuye.",
+                desc: "Agent Kim Episode 1. High-octane action series translated in Agasobanuye.",
                 poster: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400",
+                videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4", // Replace with your direct video file link for streaming
                 targetUrl: "https://www.mediafire.com/file/YOUR_MEDIAFIRE_LINK_AGENT_KIM" 
             },
             "fifty-freed": {
@@ -723,9 +783,12 @@
                 meta: "Rocky Kimomo • Agasobanuye HD",
                 desc: "Believing they have left behind shadowy figures from their past, newlyweds Christian and Ana fully embrace an inextricable connection and shared life of luxury.",
                 poster: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400",
+                videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4", // Replace with your direct video file link for streaming
                 targetUrl: "https://www.mediafire.com/file/YOUR_MEDIAFIRE_LINK_1" 
             }
         };
+
+        let currentActiveMovie = null;
 
         function toggleDrawer() {
             document.getElementById('sidebarDrawer').classList.toggle('active');
@@ -733,6 +796,11 @@
         }
 
         function navigateTo(viewId) {
+            // Pause video if leaving details page
+            const player = document.getElementById('moviePlayer');
+            player.pause();
+            document.getElementById('videoContainer').classList.remove('active');
+
             document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active-view'));
             if (viewId === 'home') {
                 document.getElementById('homeView').classList.add('active-view');
@@ -745,16 +813,34 @@
             const item = movieDatabase[id];
             if (!item) return;
 
+            currentActiveMovie = item;
+
             document.getElementById('detailTitle').innerText = item.title;
             document.getElementById('detailMeta').innerText = item.meta;
             document.getElementById('detailDesc').innerText = item.desc;
             document.getElementById('detailPoster').src = item.poster;
             document.getElementById('detailLink').href = item.targetUrl;
 
+            // Reset player view
+            document.getElementById('videoContainer').classList.remove('active');
+            document.getElementById('moviePlayer').pause();
+
             document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active-view'));
             document.getElementById('spotlightBanner').style.display = 'none';
             document.getElementById('detailsView').classList.add('active-view');
             window.scrollTo(0, 0);
+        }
+
+        function playVideo() {
+            if (!currentActiveMovie) return;
+            const container = document.getElementById('videoContainer');
+            const player = document.getElementById('moviePlayer');
+            const source = document.getElementById('videoSource');
+
+            source.src = currentActiveMovie.videoUrl;
+            player.load();
+            container.classList.add('active');
+            player.play();
         }
 
         function filterItems() {
@@ -782,4 +868,4 @@
         }
     </script>
 </body>
-</html>
+    </html>
